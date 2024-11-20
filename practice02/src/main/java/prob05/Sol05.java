@@ -12,9 +12,7 @@ public class Sol05 {
 			System.out.print(array[i] + " ");
 		}
 
-		// 정렬 알고리즘이 적용된 코드를 여기에 작성합니다.
-		
-		
+		// 정렬 알고리즘이 적용된 코드를 여기에 작성합니다.	
 		for (int j=0; j<count; j++) {
 			for (int i = 0; i < count-1; i++) {
 				if(array[i]<array[i+1]) {
@@ -24,8 +22,7 @@ public class Sol05 {
 				}
 			}
 		}
-		
-		
+				
 		System.out.println('\n');
 		System.out.println("After Sort.");
 

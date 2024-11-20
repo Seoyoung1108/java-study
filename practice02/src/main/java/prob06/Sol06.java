@@ -21,6 +21,7 @@ public class Sol06 {
 			int i=1;
 			int high=100;
 			int low = 1;
+			
 			while(true) {
 				System.out.println(low+"-"+high);
 				System.out.print(i+">>");
@@ -38,8 +39,7 @@ public class Sol06 {
 				}
 				i++;
 			}
-	
-			
+				
 			//새 게임 여부 확인하기
 			System.out.print("다시 하겠습니까(y/n)>>");
 			String answer = scanner.next();
