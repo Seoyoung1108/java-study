@@ -16,7 +16,6 @@ public class Sol06 {
 			Random random = new Random();
 			int correctNumber = random.nextInt(100) + 1;
 			System.out.println("수를 결정하였습니다. 맞추어 보세요:");
-			System.out.println(correctNumber);
 			
 			int i=1;
 			int high=100;
