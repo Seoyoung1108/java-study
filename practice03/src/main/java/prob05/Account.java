@@ -36,5 +36,4 @@ public class Account {
 		balance-=i;
 		System.out.println(accountNo+" 계좌에 "+i+"만원이 출금 되었습니다.");
 	}
-
 }
