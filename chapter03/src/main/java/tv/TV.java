@@ -73,7 +73,6 @@ public class TV {
 		System.out.println("TV[channel=" + channel + ", volume=" + volume + ", power=" + (power?"on":"off") + "]");
 	}
 	
-	//channel - 1~255 (256넘어가면 1로)
-	//volume도
-	// 중복코드 없게
+	// channel: 1~255 (256이상은 1로)
+	// volume: 0~100 (동일)
 }
