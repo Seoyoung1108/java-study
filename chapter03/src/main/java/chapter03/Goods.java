@@ -1,12 +1,19 @@
 package chapter03;
 
 public class Goods {
+	public static int countOfGoods = 0;
 	private String name;
 	private int price;
 	private int countStock;
 	private int countSold;
 	
+	public Goods() {
+		//클래스 이름은 생략 가능
+		countOfGoods++;
+	}
+	
 	public String getName() {
+		double pi = Math.PI;
 		return name;
 	}
 	public void setName(String name) {
@@ -16,7 +23,11 @@ public class Goods {
 		return price;
 	}
 	public void setPrice(int price) {
-		this.price = price;
+		if(price<0) {
+			price=0;
+		} else {
+			this.price = price;
+		}
 	}
 	public int getCountStock() {
 		return countStock;
@@ -34,5 +45,10 @@ public class Goods {
 	public void printInfo() {
 		// this: 런타임 때 객체가 스스로를 레퍼런스 하는 것(생략 가능)
 		System.out.println("상품이름: "+ this.name + ", 가격: "+ price + ", 판매량: "+ countSold + ", 재고량: "+ countStock);
+	}
+	
+	public int calcDiscountPrice(float discountRate) {
+		int result = price-(int)(price*discountRate); // 지역변수는 꼭 초기화하기
+		return result;
 	}
 }

@@ -19,6 +19,19 @@ public class GoodsApp {
 		//System.out.println("상품이름: "+ goods.name + ", 가격: "+ goods.price + ", 판매량: "+ goods.countSold + ", 재고량: "+ goods.countStock);
 		System.out.println("상품이름: "+ goods.getName() + ", 가격: "+ goods.getPrice() + ", 판매량: "+ goods.getCountSold() + ", 재고량: "+ goods.getCountStock());
 		goods.printInfo();
+		
+		// 정보은닉(객체의 상태를 보호)
+		//goods.price=-1000;
+		goods.setPrice(-1000);
+		
+		Goods goods2 = new Goods();
+		Goods goods3 = new Goods();
+		
+		// static 변수(클래스 변수)
+		System.out.println(Goods.countOfGoods);
+		
+		goods.setPrice(400000);
+		System.out.println(goods.calcDiscountPrice(0.5f));
 	}
 	
 	
