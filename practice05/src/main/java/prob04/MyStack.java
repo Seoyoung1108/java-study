@@ -2,8 +2,8 @@ package prob04;
 
 import java.io.IOException;
 
-import exception.MyClass;
 import exception.MyException;
+
 
 public class MyStack {
 	private int top;
@@ -27,16 +27,9 @@ public class MyStack {
 
 	public String pop() throws MyStackException {
 		/* 구현하기 */
-		return buffer[top];
-		String s;
-		
-		try {
-			s=buffer[top];
-		} catch(Exception e) {
-			MyStackException();
+		if(top==-1) {
+			throw new MyStackException();
 		}
-		
-		return buffer[top]
 	}
 
 	public boolean isEmpty() {
