@@ -1,9 +1,6 @@
 package prob04;
 
-import java.io.IOException;
-
-import exception.MyException;
-
+import java.util.Arrays;
 
 public class MyStack {
 	private int top;
@@ -19,10 +16,9 @@ public class MyStack {
 		/* 구현하기 */
 		this.top++;
 		if(top==buffer.length) {
-			resize();
-		} else {
-			this.buffer[top]=s;
+			resize();	
 		}
+		this.buffer[top]=s;
 	}
 
 	public String pop() throws MyStackException {
@@ -30,15 +26,22 @@ public class MyStack {
 		if(top==-1) {
 			throw new MyStackException();
 		}
+		String target = buffer[top];
+		this.top--;
+		return target;
 	}
 
 	public boolean isEmpty() {
 		/* 구현하기 */
-		return false;
+		if(top==-1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private void resize() {
 		/* 구현하기 배열 크기top 넘어가면 기존 사이즈 2배 */
-		
+		this.buffer=Arrays.copyOf(this.buffer, this.buffer.length*2);
 	}	
 }
