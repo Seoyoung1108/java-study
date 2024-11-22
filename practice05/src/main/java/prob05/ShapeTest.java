@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShapeTest {
-
+//shape 변수들 protected
 	public static void main(String[] args) {
 		List<Shape> list = new ArrayList<Shape>();
 

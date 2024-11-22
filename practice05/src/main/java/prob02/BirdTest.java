@@ -6,12 +6,12 @@ public class BirdTest {
 		bird01.setName("꽥꽥이");
 		bird01.fly();
 		bird01.sing();
-		System.out.println(bird01.toString()); // toString 오버라이드
+		System.out.println(bird01.toString());
 
 		Bird bird02 = new Sparrow();
 		bird02.setName("짹짹이");
 		bird02.fly();
 		bird02.sing();
-		System.out.println(bird02);
+		System.out.println(bird02.toString());
 	}
 }
