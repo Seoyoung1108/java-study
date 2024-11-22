@@ -28,6 +28,7 @@ public class MyStack {
 		}
 		String target = buffer[top];
 		this.top--;
+		
 		return target;
 	}
 
@@ -41,7 +42,7 @@ public class MyStack {
 	}
 
 	private void resize() {
-		/* 구현하기 배열 크기top 넘어가면 기존 사이즈 2배 */
+		/* 구현하기 - 배열 크기 top 넘어가면 기존 사이즈 2배 */
 		this.buffer=Arrays.copyOf(this.buffer, this.buffer.length*2);
 	}	
 }
