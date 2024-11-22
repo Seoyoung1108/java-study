@@ -1,4 +1,6 @@
-package paint;
+package com.poscodx.paint.text;
+
+import com.poscodx.paint.i.Drawable;
 
 public class GraphicTest implements Drawable {
 	private String text;

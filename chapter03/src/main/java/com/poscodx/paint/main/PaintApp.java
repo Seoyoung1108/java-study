@@ -1,4 +1,13 @@
-package paint;
+package com.poscodx.paint.main;
+
+import com.poscodx.paint.i.Drawable;
+import com.poscodx.paint.point.ColorPoint;
+import com.poscodx.paint.point.Point;
+import com.poscodx.paint.shape.Circle;
+import com.poscodx.paint.shape.Rectangle;
+import com.poscodx.paint.shape.Shape;
+import com.poscodx.paint.shape.Triangle;
+import com.poscodx.paint.text.GraphicTest;
 
 public class PaintApp {
 
@@ -39,6 +48,25 @@ public class PaintApp {
 		draw(new Circle());
 		
 		draw(new GraphicTest("안녕"));
+		
+		// instanceof 연산자
+		Circle c = new Circle();
+		System.out.println(c instanceof Circle);
+		System.out.println(c instanceof Object);
+		System.out.println(c instanceof Shape);
+		// 오류: 연산자 우측항이 클래스인 경우: 좌측항의 레퍼런스 타입의 hierachy의 상하위만 사용할 수 있다.
+		//System.out.println(c instanceof Point);
+		//System.out.println(c instanceof Rectangle);
+		
+		Shape s = new Circle();
+		System.out.println(s instanceof Circle);
+		System.out.println(s instanceof Object);
+		System.out.println(s instanceof Shape);
+		System.out.println(s instanceof Rectangle); // 주의
+		
+		// 연산자 우측항이 인터페이스인 경우: hierachy 상관없이 연산자를 사용할 수 있다.
+		System.out.println(c instanceof Drawable);
+		System.out.println(c instanceof Runnable);
 	}
 	
 	public static void draw(Drawable drawable) {
