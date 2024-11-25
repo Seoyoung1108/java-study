@@ -13,5 +13,3 @@ public class MoneyTest {
 		}
 	}
 }
-
-// 2주차에
