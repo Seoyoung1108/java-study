@@ -2,13 +2,11 @@ package prob05;
 
 public class MyBase extends Base {
 	public void service(String state){
-		if(state.equals("낮")) {
-			day();
-		} else if(state.equals("밤")) {
-			night();
-		} else {
+		if("오후".equals(state)) {
 			afternoon();
+			return;
 		}
+		super.service(state);
 	}
 	
 	public void day(){
