@@ -47,9 +47,6 @@ public class PhoneList02 {
 		} finally {
 			scanner.close();
 		}
-		
-		
-		// 2. 보조 스트림
 	}
 
 }
