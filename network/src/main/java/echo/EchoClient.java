@@ -1,48 +1,64 @@
 package echo;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.Scanner;
 
 public class EchoClient {
 	public static final String SERVER_IP = "192.168.0.16";
 
 	public static void main(String[] args) {
-		Socket socket =null;
+		Scanner scanner = null;
+		Socket socket = null;
 		
 		try {
-			// 1. 소켓 객체 생성
-			socket=new Socket();
+			scanner = new Scanner(System.in);
+			socket = new Socket();
 			
-			// 2. connect (서버 연결)
 			socket.connect(new InetSocketAddress(SERVER_IP,EchoServer.PORT));
 			
-			// 3-1, 4-1. IO Stream 받아오기
-			InputStream is = socket.getInputStream();
-			OutputStream os = socket.getOutputStream();
+			// writer
+			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"), true); // autoFlush
 			
-			// 3-2. write
-			String data = "Hello World";
-			os.write(data.getBytes("utf-8"));
+			// reader
+			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+	
+			while(true) {
+				// write
+				System.out.print(">>");
+				String line = scanner.nextLine();
+				
+				if("exit".equals(line)) {
+					break;
+				}
+				
+				pw.println(line); // print \n으로 하지말기 - flush 안됨.
+				
+				// read
+				String data=br.readLine();
+				if(data==null) {
+					// closed by server
+					log("closed by server");
+					break;
+				}
+				System.out.println("<<"+data);
+			}		
 			
-			// 4-2. read
-			byte[] buffer = new byte[256];
-			int readByteCount = is.read(buffer);
-			if(readByteCount==-1) {
-				// closed by server
-				log("closed by server");
-				return;
-			}
-			// encoding
-			data = new String(buffer, 0, readByteCount, "utf-8");
-			log("received: "+data);
-			
+		} catch (SocketException e) {
+			log("Socket Exception: "+e);
 		} catch (IOException e) {
 			log("error: "+e);
 		} finally {
 			try {
+				if(scanner !=null) {
+					scanner.close();
+				}
 				if(socket!=null && !socket.isClosed()) {
 					socket.close();
 				}
@@ -50,7 +66,6 @@ public class EchoClient {
 				e.printStackTrace();
 			}
 		}
-
 
 	}
 	
