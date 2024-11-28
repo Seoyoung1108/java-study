@@ -80,13 +80,14 @@ public class RequestHandler extends Thread {
 	}
 
 	private void responseStaticRescources(OutputStream os, String url, String protocol) throws IOException {
-		if("/".equals(protocol)) {
+		// default(welcome) file
+		if("/".equals(url)) {
 			url="/index.html";
 		}
 		File file = new File("./webapp"+url);
 		if(!file.exists()) {
-			// 404 response -> 과제
-			return;
+			// <과제> 404 response
+			file = new File("./webapp/error/404.html");
 		}
 		
 		// nio
