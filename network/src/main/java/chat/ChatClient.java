@@ -28,7 +28,7 @@ public class ChatClient {
 			// writer
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"), true); // autoFlush
 			
-			// join
+			// 먼저 join
 			String nickname = "";
 			while(nickname.length()==0) { // 빈 문자열 입력 시 재입력 요청
 				nickname=inputJoin(scanner);
@@ -44,20 +44,22 @@ public class ChatClient {
 			
 			while(true) {
 				// write
-				System.out.print(">>");
+                System.out.print(">>");
 				String line = scanner.nextLine();
+				if(line=="") { // 빈 문자열 입력 시 재입력 요청
+					continue;
+				}
 				
 				if("quit".equals(line)) {
 					pw.println("quit");
 					break;
 				} else {
 					// Base64 인코딩
-					byte[] lineBytes = line.getBytes("utf-8");
+					byte[] lineBytes = line.getBytes(StandardCharsets.UTF_8);
 					String encodedLine = Base64.getEncoder().encodeToString(lineBytes);
 					pw.println("msg "+encodedLine);
 				}
 			}		
-			
 		} catch (SocketException e) {
 			log("Socket Exception: "+e);
 		} catch (IOException e) {

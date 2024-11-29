@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 
-
 public class ChatServerThread extends Thread {
 	private String nickname;
 	private Socket socket;
@@ -31,25 +30,20 @@ public class ChatServerThread extends Thread {
 			int remotePort = inetRemoteSocketAddress.getPort();
 			ChatServer.log("connected by client ["+remoteHostAddress+" : "+remotePort+"]");
 					
-			// writer
+			// writer, reader
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"), true); // autoFlush
-			
-			// reader
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
 			
 			while(true) {
 				// read
 				String data = br.readLine();
 				if(data==null) {
-					// closed by client
 					ChatServer.log("closed by client");
 					doQuit(pw);
 					break;
 				}
 				
-				// 프로토콜 분석
-				ChatServer.log("received: "+data); // 나중에 지우기 - 확인용
-				
+				// 프로토콜 분석				
 				String[] tokens = data.split(" ");
 				if("join".equals(tokens[0])) {
 					doJoin(tokens[1],pw);
@@ -57,6 +51,7 @@ public class ChatServerThread extends Thread {
 					doMessage(tokens[1]);
 				} else if("quit".equals(tokens[0])) {
 					doQuit(pw);
+					break;
 				} else {
 					ChatServer.log("error: 알 수 없는 요청("+tokens[0]+"]");
 				}
@@ -87,7 +82,7 @@ public class ChatServerThread extends Thread {
 		byte[] decodedNickname = Base64.getDecoder().decode(nickName);
 		this.nickname=new String(decodedNickname,StandardCharsets.UTF_8);
 		
-		String data = nickname+"님이 참여하였습니다.";
+		String data = nickname+"님이 입장하였습니다.";
 		broadcast(data);
 		
 		addWriter(pw); // Writer Pool에 저장
@@ -98,7 +93,7 @@ public class ChatServerThread extends Thread {
 
 	private void addWriter(PrintWriter pw) {
 		synchronized(listWriters) {
-			this.listWriters.add(pw);
+			listWriters.add(pw);
 		}
 	}
 
@@ -111,7 +106,7 @@ public class ChatServerThread extends Thread {
 
 	private void removeWriter(PrintWriter pw) {
 		synchronized(listWriters) {
-			this.listWriters.remove(pw);   // 그냥 이렇게 끝나면 되나?
+			listWriters.remove(pw);
 		}	
 	}
 	

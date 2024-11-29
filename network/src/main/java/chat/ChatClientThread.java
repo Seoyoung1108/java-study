@@ -8,7 +8,7 @@ import java.net.SocketException;
 
 public class ChatClientThread extends Thread {
 	private Socket socket;
-	// private BufferedReader br;
+	private BufferedReader br;
 	
 	public ChatClientThread(Socket socket) {
 		this.socket=socket;
@@ -18,19 +18,19 @@ public class ChatClientThread extends Thread {
 	public void run() {		
 		try {
 			// reader
-			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
 			
 			while(true) {
 				// read
 				String data = br.readLine();
 				if(data==null) {
-					// closed by server
 					ChatClient.log("closed by server");
 					break;
 				}
 				System.out.println(data);
 			}
 		} catch (SocketException e) {
+			// 퇴장 예외 처리
 			System.out.println("퇴장하였습니다. 사용해주셔서 감사합니다.");
 		} catch (IOException e) {
 			e.printStackTrace();
