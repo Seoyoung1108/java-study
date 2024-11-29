@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ChatClientThread extends Thread {
 	private Socket socket;
@@ -29,6 +30,8 @@ public class ChatClientThread extends Thread {
 				}
 				System.out.println(data);
 			}
+		} catch (SocketException e) {
+			System.out.println("퇴장하였습니다. 사용해주셔서 감사합니다.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

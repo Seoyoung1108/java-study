@@ -16,7 +16,7 @@ import java.util.List;
 public class ChatServerThread extends Thread {
 	private String nickname;
 	private Socket socket;
-	List<PrintWriter> listWriters; // ChatServer 참조
+	List<PrintWriter> listWriters;
 	
 	public ChatServerThread(Socket socket, List<PrintWriter> listWriters) {
 		this.socket=socket;
@@ -50,7 +50,7 @@ public class ChatServerThread extends Thread {
 				// 프로토콜 분석
 				ChatServer.log("received: "+data); // 나중에 지우기 - 확인용
 				
-				String[] tokens = data.split(" "); // 나중에 base64로 바꾸기 (프로토콜이랑 문자열 2개로 분리한다음 token[1]에는 문자열들 다 담아버리기)
+				String[] tokens = data.split(" ");
 				if("join".equals(tokens[0])) {
 					doJoin(tokens[1],pw);
 				} else if("msg".equals(tokens[0])) {

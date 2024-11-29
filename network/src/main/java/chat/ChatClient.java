@@ -29,8 +29,11 @@ public class ChatClient {
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"), true); // autoFlush
 			
 			// join
-			System.out.print("닉네임>>"); // 띄어쓰기 가능
-			String nickname = scanner.nextLine();
+			String nickname = "";
+			while(nickname.length()==0) { // 빈 문자열 입력 시 재입력 요청
+				nickname=inputJoin(scanner);
+			}
+			
 			// Base64 인코딩
 			byte[] nicknameBytes = nickname.getBytes(StandardCharsets.UTF_8);
 			String encodedNickname = Base64.getEncoder().encodeToString(nicknameBytes);
@@ -75,5 +78,10 @@ public class ChatClient {
 	
 	public static void log(String message) {
 		System.out.println("[Chat Client] "+message);
+	}
+	
+	public static String inputJoin(Scanner scanner) {
+		System.out.print("닉네임>>"); 
+		return scanner.nextLine().strip(); // 띄어쓰기 가능
 	}
 }
