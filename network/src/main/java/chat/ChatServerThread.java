@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 
@@ -29,9 +31,7 @@ public class ChatServerThread extends Thread {
 			String remoteHostAddress = inetRemoteSocketAddress.getAddress().getHostAddress();
 			int remotePort = inetRemoteSocketAddress.getPort();
 			ChatServer.log("connected by client ["+remoteHostAddress+" : "+remotePort+"]");
-			
-			// IO Stream 받아오기 - 보조 스트림 사용 파이프 연결
-			
+					
 			// writer
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"), true); // autoFlush
 			
@@ -61,7 +61,6 @@ public class ChatServerThread extends Thread {
 				} else {
 					ChatServer.log("error: 알 수 없는 요청("+tokens[0]+"]");
 				}
-				
 			}
 		} catch (SocketException e) {
 			ChatServer.log("Socket Exception: "+e);
@@ -76,20 +75,20 @@ public class ChatServerThread extends Thread {
 				e.printStackTrace();
 			}
 		}
-	
 	}
 
-	private void doMessage(String string) {
+	private void doMessage(String line) {
 		// Base64 디코딩
-		//byte[] decodeByte = Base64.getDecoder().decode(string);
-		//broadcast(nickname+": "+new String(decodeByte));
-		broadcast(nickname+": "+string);
+		byte[] decodedLine = Base64.getDecoder().decode(line);
+		broadcast(nickname+": "+new String(decodedLine,StandardCharsets.UTF_8));
 	}
 
 	private void doJoin(String nickName, PrintWriter pw) {
-		this.nickname=nickName;
+		// Base64 디코딩
+		byte[] decodedNickname = Base64.getDecoder().decode(nickName);
+		this.nickname=new String(decodedNickname,StandardCharsets.UTF_8);
 		
-		String data = nickName+"님이 참여하였습니다.";
+		String data = nickname+"님이 참여하였습니다.";
 		broadcast(data);
 		
 		addWriter(pw); // Writer Pool에 저장
@@ -101,7 +100,6 @@ public class ChatServerThread extends Thread {
 	private void addWriter(PrintWriter pw) {
 		synchronized(listWriters) {
 			this.listWriters.add(pw);
-			// -> 식별을 어떻게??
 		}
 	}
 
@@ -115,8 +113,7 @@ public class ChatServerThread extends Thread {
 	private void removeWriter(PrintWriter pw) {
 		synchronized(listWriters) {
 			this.listWriters.remove(pw);   // 그냥 이렇게 끝나면 되나?
-		}
-		
+		}	
 	}
 	
 	// 모든 클라이언트에게 메시지를 보내는 메소드(입장은 추가 전, 퇴장은 제거 후)
@@ -128,5 +125,4 @@ public class ChatServerThread extends Thread {
 			}
 		}
 	}
-	
 }

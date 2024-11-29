@@ -16,16 +16,14 @@ public class ChatServer {
 		ServerSocket serverSocket = null;
 		
 		try {
-			serverSocket = new ServerSocket();
-			
+			serverSocket = new ServerSocket();	
 			serverSocket.bind(new InetSocketAddress("0.0.0.0",PORT));
-			log("연결 기다림: " + PORT); // hostAddress 설정해야 하는지
+			log("연결 기다림: " + PORT);
 			
 			while(true) {
 				Socket socket = serverSocket.accept();
 				new ChatServerThread(socket,listWriters).start();
 			}
-
 		} catch (IOException e) {
 			log("error: "+e);
 		} finally {
@@ -37,11 +35,9 @@ public class ChatServer {
 				e.printStackTrace();
 			}
 		}
-
 	}
 	
 	public static void log(String message) {
 		System.out.println("[Chat Server] "+message);
 	}
-
 }

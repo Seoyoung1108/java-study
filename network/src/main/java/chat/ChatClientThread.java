@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class ChatClientThread extends Thread {
 	private Socket socket;
-	private BufferedReader br;
+	// private BufferedReader br;
 	
 	public ChatClientThread(Socket socket) {
 		this.socket=socket;
@@ -29,17 +29,8 @@ public class ChatClientThread extends Thread {
 				}
 				System.out.println(data);
 			}
-
-			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-	}
-	
-
-	
+	}	
 }
