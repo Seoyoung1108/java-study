@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Base64;
 import java.util.List;
 
 
@@ -50,11 +51,11 @@ public class ChatServerThread extends Thread {
 				// 프로토콜 분석
 				ChatServer.log("received: "+data); // 나중에 지우기 - 확인용
 				
-				String[] tokens = data.split(":"); // 나중에 base64로 바꾸기 (프로토콜이랑 문자열 2개로 분리한다음 token[1]에는 문자열들 다 담아버리기)
+				String[] tokens = data.split(" "); // 나중에 base64로 바꾸기 (프로토콜이랑 문자열 2개로 분리한다음 token[1]에는 문자열들 다 담아버리기)
 				if("join".equals(tokens[0])) {
 					doJoin(tokens[1],pw);
 				} else if("msg".equals(tokens[0])) {
-					doMessage(tokens[1],pw);
+					doMessage(tokens[1]);
 				} else if("quit".equals(tokens[0])) {
 					doQuit(pw);
 				} else {
@@ -78,8 +79,10 @@ public class ChatServerThread extends Thread {
 	
 	}
 
-
-	private void doMessage(String string, PrintWriter pw) {
+	private void doMessage(String string) {
+		// Base64 디코딩
+		//byte[] decodeByte = Base64.getDecoder().decode(string);
+		//broadcast(nickname+": "+new String(decodeByte));
 		broadcast(nickname+": "+string);
 	}
 
@@ -101,7 +104,6 @@ public class ChatServerThread extends Thread {
 			// -> 식별을 어떻게??
 		}
 	}
-	
 
 	private void doQuit(PrintWriter pw) {
 		removeWriter(pw); // Writer Pool에서 제거
