@@ -1,6 +1,8 @@
 package chat;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
@@ -9,8 +11,6 @@ import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Scanner;
-
-import echo.EchoServer;
 
 public class ChatClient {
 	public static final String SERVER_IP = "127.0.0.1";
@@ -22,10 +22,11 @@ public class ChatClient {
 		try {
 			scanner = new Scanner(System.in);
 			socket = new Socket();
-			socket.connect(new InetSocketAddress(SERVER_IP,EchoServer.PORT));
+			socket.connect(new InetSocketAddress(SERVER_IP,ChatServer.PORT));
 			
-			// writer
+			// writer, reader
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"utf-8"), true); // autoFlush
+			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(),"utf-8"));
 			
 			// 먼저 join
 			String nickname = "";
@@ -38,6 +39,11 @@ public class ChatClient {
 			String encodedNickname = Base64.getEncoder().encodeToString(nicknameBytes);
 			pw.println("join "+encodedNickname);
 			pw.flush();
+			String ack=br.readLine();
+			if("1".equals(ack)) {
+				System.out.println("입장하였습니다. 즐거운 채팅 되세요.");
+			}
+			// else 처리
 			
 			new ChatClientThread(socket).start();
 			

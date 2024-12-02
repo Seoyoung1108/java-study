@@ -48,7 +48,7 @@ public class ChatServerThread extends Thread {
 				if("join".equals(tokens[0])) {
 					doJoin(tokens[1],pw);
 				} else if("msg".equals(tokens[0])) {
-					doMessage(tokens[1]);
+					doMessage(tokens[1], pw);
 				} else if("quit".equals(tokens[0])) {
 					doQuit(pw);
 					break;
@@ -71,10 +71,13 @@ public class ChatServerThread extends Thread {
 		}
 	}
 
-	private void doMessage(String line) {
+	private void doMessage(String line, PrintWriter pw) {
 		// Base64 디코딩
 		byte[] decodedLine = Base64.getDecoder().decode(line);
 		broadcast(nickname+": "+new String(decodedLine,StandardCharsets.UTF_8));
+		
+		//pw.println("2"); // ack
+		//pw.flush();
 	}
 
 	private void doJoin(String nickName, PrintWriter pw) {
@@ -86,8 +89,8 @@ public class ChatServerThread extends Thread {
 		broadcast(data);
 		
 		addWriter(pw); // Writer Pool에 저장
-		
-		pw.println("입장하였습니다. 즐거운 채팅 되세요.");
+				
+		pw.println("1"); // ack
 		pw.flush();
 	}
 
@@ -98,6 +101,9 @@ public class ChatServerThread extends Thread {
 	}
 
 	private void doQuit(PrintWriter pw) {
+		//pw.println("3"); // ack
+		//pw.flush();
+		
 		removeWriter(pw); // Writer Pool에서 제거
 		
 		String data = nickname+"님이 퇴장하였습니다.";
