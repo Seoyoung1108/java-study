@@ -54,7 +54,6 @@ public class ChatClientApp {
 			if("1".equals(ack)) {
 				new ChatWindow(name, socket).show();
 			}
-			// else 처리
 			
 			scanner.close();
 		} catch (SocketException e) {
