@@ -65,6 +65,6 @@ public class ChatClientApp {
 	}
 	
 	public static void log(String message) {
-		System.out.println("[Chat Client] "+message);
+		System.out.println("[Chat Client App] "+message);
 	}
 }

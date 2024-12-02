@@ -43,7 +43,6 @@ public class ChatClient {
 			if("1".equals(ack)) {
 				System.out.println("입장하였습니다. 즐거운 채팅 되세요.");
 			}
-			// else 처리
 			
 			new ChatClientThread(socket).start();
 			

@@ -24,8 +24,6 @@ import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import chat.ChatClient;
-
 public class ChatWindow {
 	private Socket socket;
 	private PrintWriter pw;
@@ -104,6 +102,9 @@ public class ChatWindow {
 	
 	private void sendMessage() {
 		String message = textField.getText();
+		if(message.length()==0) { // 빈 문자열 입력 시 전송x
+			return;
+		}
 		if("quit".equals(message)) {
 			finish();
 		} else {
@@ -140,15 +141,16 @@ public class ChatWindow {
 					// read
 					String data = br.readLine();
 					if(data==null) {
-						ChatClient.log("closed by server");
-						finish();
+						ChatClientApp.log("closed by server");
+						break;
+					} else if("2".equals(data)) {
+						break; 
 					}
 					
 					updateTextArea(data);
 				}
 			} catch (SocketException e) {
 				// 퇴장 예외 처리
-				System.out.println("퇴장하였습니다. 사용해주셔서 감사합니다.");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

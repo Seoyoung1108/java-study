@@ -75,9 +75,6 @@ public class ChatServerThread extends Thread {
 		// Base64 디코딩
 		byte[] decodedLine = Base64.getDecoder().decode(line);
 		broadcast(nickname+": "+new String(decodedLine,StandardCharsets.UTF_8));
-		
-		//pw.println("2"); // ack
-		//pw.flush();
 	}
 
 	private void doJoin(String nickName, PrintWriter pw) {
@@ -101,8 +98,8 @@ public class ChatServerThread extends Thread {
 	}
 
 	private void doQuit(PrintWriter pw) {
-		//pw.println("3"); // ack
-		//pw.flush();
+		pw.println("2"); // ack
+		pw.flush();
 		
 		removeWriter(pw); // Writer Pool에서 제거
 		
