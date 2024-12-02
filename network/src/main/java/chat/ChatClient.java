@@ -22,7 +22,6 @@ public class ChatClient {
 		try {
 			scanner = new Scanner(System.in);
 			socket = new Socket();
-			
 			socket.connect(new InetSocketAddress(SERVER_IP,EchoServer.PORT));
 			
 			// writer
@@ -46,6 +45,7 @@ public class ChatClient {
 				// write
                 System.out.print(">>");
 				String line = scanner.nextLine();
+				
 				if(line=="") { // 빈 문자열 입력 시 재입력 요청
 					continue;
 				}
