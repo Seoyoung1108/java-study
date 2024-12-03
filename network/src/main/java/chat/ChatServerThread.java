@@ -48,7 +48,7 @@ public class ChatServerThread extends Thread {
 				if("join".equals(tokens[0])) {
 					doJoin(tokens[1],pw);
 				} else if("msg".equals(tokens[0])) {
-					doMessage(tokens[1], pw);
+					doMessage(tokens[1]);
 				} else if("quit".equals(tokens[0])) {
 					doQuit(pw);
 					break;
@@ -71,7 +71,7 @@ public class ChatServerThread extends Thread {
 		}
 	}
 
-	private void doMessage(String line, PrintWriter pw) {
+	private void doMessage(String line) {
 		// Base64 디코딩
 		byte[] decodedLine = Base64.getDecoder().decode(line);
 		broadcast(nickname+": "+new String(decodedLine,StandardCharsets.UTF_8));
