@@ -105,14 +105,11 @@ public class ChatWindow {
 		if(message.length()==0) { // 빈 문자열 입력 시 전송x
 			return;
 		}
-		if("quit".equals(message)) {
-			finish();
-		} else {
-			// Base64 인코딩
-			byte[] lineBytes = message.getBytes(StandardCharsets.UTF_8);
-			String encodedLine = Base64.getEncoder().encodeToString(lineBytes);
-			pw.println("msg "+encodedLine);
-		}
+
+		// Base64 인코딩
+		byte[] lineBytes = message.getBytes(StandardCharsets.UTF_8);
+		String encodedLine = Base64.getEncoder().encodeToString(lineBytes);
+		pw.println("msg "+encodedLine);
 		
 		textField.setText("");
 		textField.requestFocus();
